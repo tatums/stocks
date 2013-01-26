@@ -15,7 +15,9 @@ class Script
   end
 
   def run
+
     history = @stock.history(Date.new(2011,1,1), Date.today.prev_day).reverse
+
     items = find_days(history)
     execute(items)
   end
@@ -53,6 +55,7 @@ class Script
       first = history[index]
       second = history[index+1]
       third = history[index+2]
+
       if first and second and third
 
 

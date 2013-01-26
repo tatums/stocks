@@ -16,11 +16,31 @@ class Stock
     (unit_price.to_f* @shares).round(3) if @shares
   end
 
-  def history(start_date, end_date)
+  def history_to_date
+    history.map{ |d| Day.new( :date => Date.parse( d[:date] ) ,
+                              :open => d[:open].to_f,
+                              :close => d[:close].to_f,
+                              :high => d[:high].to_f,
+                              :low => d[:low].to_f,
+                              :volume => d[:volume].to_f,
+                              :adj_close => d[:adj_close].to_f
+                ) }
+  end
+
+  def history(start_date=default_start, end_date=default_end)
     YahooApi.new(self).history(start_date, end_date)
   end
 
   private
+
+
+  def default_start
+    Date.today.prev_day
+  end
+
+  def default_end
+    Date.today.prev_day
+  end
 
   def current_value
     YahooApi.new(self).value if shares
