@@ -18,9 +18,17 @@ describe Stock do
     @stock.symbol.to_s.should eq "AAPL"
   end
 
-  # it 'Should respond to symbol' do
-  #   @stock.symbol.to_s.should eq "AAPL"
-  # end
+  it 'Should respond to history' do
+    @stock.history.should be_an_instance_of Array
+  end
+
+  it 'history method should be an array of Days' do
+    @stock.history.map(&:class).include?(Day).should eq true
+  end
+
+  it 'history method should be an array of Days' do
+    @stock.history.map(&:class).include?(Day).should eq true
+  end
 
 end
 
