@@ -6,6 +6,7 @@ end
 # Dir.glob(project_root + '/lib/stocks/*.rb').each {|file| load file}
 
 #Dir["#{File.dirname(__FILE__)}../lib/**/*.rb"].each { |file| puts file }
+require 'pry'
 
 load 'stocks/stock.rb'
 load 'stocks/day.rb'

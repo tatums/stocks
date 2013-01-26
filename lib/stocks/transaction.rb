@@ -7,13 +7,13 @@ class Transaction
     @account = args[:account]
   end
 
-  def buy( args = {} )
+  def buy(args = {})
     @stock.buy(@account.balance, args[:unit_price])
     @account.buy(@stock)
     @account.deduct_from_balance( @account.balance )
   end
 
-  def sell(args ={})
+  def sell(args = {})
     @account.add_to_balance( @stock.value( args[:unit_price] ) )
     @account.sell( @stock )
   end

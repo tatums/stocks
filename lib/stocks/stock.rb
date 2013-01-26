@@ -13,7 +13,7 @@ class Stock
   end
 
   def value(unit_price=current_price)
-    unit_price * @shares
+    (unit_price.to_f* @shares).round(3) if @shares
   end
 
   def history(start_date, end_date)
