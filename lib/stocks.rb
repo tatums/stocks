@@ -7,6 +7,7 @@ end
 
 #Dir["#{File.dirname(__FILE__)}../lib/**/*.rb"].each { |file| puts file }
 require 'pry'
+require 'json'
 
 load 'stocks/stock.rb'
 load 'stocks/day.rb'
@@ -14,3 +15,4 @@ load 'stocks/yahoo_api.rb'
 load 'stocks/account.rb'
 load 'stocks/transaction.rb'
 load 'stocks/script.rb'
+

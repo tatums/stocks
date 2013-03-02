@@ -1,0 +1,62 @@
+<p>
+  Starting Balance:
+  <%= @pre_balance %>
+</p>
+<p>
+  Ending Balance:
+  <%= @post_balance %>
+</p>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+
+<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+
+<script type="text/javascript">
+  var App = {};
+  App.stock_name = '<%= @script.stock.name %>';
+  App.dates = <%= @data.map{|d| d[:date].to_s } %>;
+  App.opens = <%= @data.map{|d| d[:open] } %>;
+
+  $(function () {
+      var chart;
+      $(document).ready(function() {
+          chart = new Highcharts.Chart({
+              chart: {
+                  renderTo: 'container',
+                  type: 'area',
+                  marginRight: 10,
+                  marginBottom: 50
+              },
+              title: {
+                  text: 'Stocks',
+                  x: 0 //center
+              },
+              legend: false,
+              xAxis: {
+                  title: { text: 'Dates'},
+                  //categories: App.dates
+              },
+              yAxis: {
+                  title: {text: 'Price'},
+                  plotLines: [{
+                      value: 0,
+                      width: 1,
+                      color: '#808080'
+                  }]
+              },
+              tooltip: {
+                  formatter: function() {
+                          return '<b>'+ this.series.name +'</b><br/>'+
+                          this.x +': '+ this.y;
+                  }
+              },
+              series: [{
+                  name: App.stock_name,
+                  data: App.opens
+              }]
+          });
+      });
+  });
+
+
+</script>
