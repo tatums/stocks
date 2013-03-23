@@ -22,7 +22,6 @@ class Script
   end
 
 
-
   private
 
   def find_buy_and_sell(days)
@@ -38,33 +37,29 @@ class Script
   end
 
   def sell(item)
-    unless @account.stocks.empty? or item.date.nil?
-      Transaction.new(stock: @stock, account: @account).sell(unit_price: item.date.open)
-      puts "Sell #{item.date.date} - #{item.date.open}"
-    end
+    Transaction.new(stock: @stock, account: @account).sell(unit_price: item.date.open) unless @account.stocks.empty? or item.date.nil?
   end
 
   def buy(item)
-    if @account.balance > 0 and item.date
-      Transaction.new(stock: @stock, account: @account).buy(unit_price: item.date.open)
-      puts "Buy #{item.date.date} - #{item.date.open}"
-    end
+    Transaction.new(stock: @stock, account: @account).buy(unit_price: item.date.open) if @account.balance > 0 and item.date
   end
+
 
   def find_days(results, days = [])
     results.each_with_index do |item, index|
       test_case = mapped_results(results, index)
-
-      ## This is comparing two arrays for a match
-      ## [true, true, true, false] == [true, true, true, false]
       case
       when test_case.map(&:gain?) == signature
-        days << Trans.new(:sell, results[index+signature.size])
+        days << blah('sell', index, results, signature)
       when test_case.map(&:loss?) == signature
-        days << Trans.new(:buy, results[index+signature.size] )
+        days << blah('buy', index, results, signature)
       end
     end
     days
+  end
+
+  def blah(action, index, results, signature)
+    Trans.new(action.to_sym, results[index+signature.size])
   end
 
   def mapped_results(results, index)
@@ -89,7 +84,7 @@ class Script
     if account.stocks.empty?
       to_currency(account.balance)
     else
-      to_currency(account.stocks.first)
+      to_currency(account.stocks.first.value)
     end
   end
 
